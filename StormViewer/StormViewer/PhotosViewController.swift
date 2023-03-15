@@ -26,11 +26,12 @@ class PhotosViewController: UIViewController {
         title = "Storm Viewer"
         navigationController?.navigationBar.prefersLargeTitles = true
         
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(PhotoCell.self, forCellReuseIdentifier: PhotoCell.reuseID)
+        tableView.rowHeight = PhotoCell.rowHeight
         
-        tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
         
         NSLayoutConstraint.activate([
@@ -45,7 +46,9 @@ class PhotosViewController: UIViewController {
 extension PhotosViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let image = photos[indexPath.row]
-        navigationController?.pushViewController(DetailViewController(imageName: image), animated: true)
+        let vc = DetailViewController(imageName: image)
+        vc.title = "Photo number \(indexPath.row + 1) of \(photos.count)"
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
@@ -55,8 +58,11 @@ extension PhotosViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = photos[indexPath.row]
+        let photoName = photos[indexPath.row]
+        let labelName = "Photo \(photoName)"
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: PhotoCell.reuseID, for: indexPath) as! PhotoCell
+        cell.configureWith(labelName: labelName, imageName: photoName) 
         return cell
     }
 }

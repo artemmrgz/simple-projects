@@ -32,7 +32,6 @@ class DetailViewController: UIViewController {
     }
     
     private func setup() {
-        title = imageName
         navigationItem.largeTitleDisplayMode = .never
         
         imageView.translatesAutoresizingMaskIntoConstraints = false

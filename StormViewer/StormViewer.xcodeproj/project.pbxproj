@@ -22,6 +22,7 @@
 		D91684CA29C0FC97000F38BE /* nssl0033.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D91684C029C0FC97000F38BE /* nssl0033.jpg */; };
 		D91684CB29C0FC97000F38BE /* nssl0034.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D91684C129C0FC97000F38BE /* nssl0034.jpg */; };
 		D91684CD29C0FD85000F38BE /* PhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91684CC29C0FD85000F38BE /* PhotosViewController.swift */; };
+		D91684CF29C2251B000F38BE /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91684CE29C2251B000F38BE /* PhotoCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		D91684C029C0FC97000F38BE /* nssl0033.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = nssl0033.jpg; sourceTree = "<group>"; };
 		D91684C129C0FC97000F38BE /* nssl0034.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = nssl0034.jpg; sourceTree = "<group>"; };
 		D91684CC29C0FD85000F38BE /* PhotosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosViewController.swift; sourceTree = "<group>"; };
+		D91684CE29C2251B000F38BE /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +79,7 @@
 				D91684A329C0F954000F38BE /* AppDelegate.swift */,
 				D91684CC29C0FD85000F38BE /* PhotosViewController.swift */,
 				D91684A729C0F954000F38BE /* DetailViewController.swift */,
+				D91684CE29C2251B000F38BE /* PhotoCell.swift */,
 				D91684AC29C0F957000F38BE /* Assets.xcassets */,
 				D91684AE29C0F957000F38BE /* LaunchScreen.storyboard */,
 				D91684B129C0F957000F38BE /* Info.plist */,
@@ -182,6 +185,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D91684CF29C2251B000F38BE /* PhotoCell.swift in Sources */,
 				D91684A829C0F954000F38BE /* DetailViewController.swift in Sources */,
 				D91684A429C0F954000F38BE /* AppDelegate.swift in Sources */,
 				D91684CD29C0FD85000F38BE /* PhotosViewController.swift in Sources */,
