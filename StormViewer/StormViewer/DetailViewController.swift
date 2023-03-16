@@ -38,8 +38,20 @@ class DetailViewController: UIViewController {
         imageView.image = UIImage(named: imageName)
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        
+
         view.addSubview(imageView)
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareTapped))
+    }
+}
+
+extension DetailViewController {
+    @objc func shareTapped() {
+        guard let image = imageView.image?.jpegData(compressionQuality: 0.8) else { return }
+        
+        let vc = UIActivityViewController(activityItems: [image], applicationActivities: [])
+        vc.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+        present(vc, animated: true)
     }
 }
 
