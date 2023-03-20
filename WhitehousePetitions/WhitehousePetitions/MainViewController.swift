@@ -17,16 +17,16 @@ class MainViewController: UITabBarController {
     
     private func setupViews() {
         
-        let firstVC = FirstViewController()
-        let secondVC = SecondViewController()
+        let allPetitionsVC = ListViewController(urlString: "https://www.hackingwithswift.com/samples/petitions-1.json", titleName: "All Petitions")
+        let popularPetitionsVC = ListViewController(urlString: "https://www.hackingwithswift.com/samples/petitions-2.json", titleName: "Popular Petitions")
         
-        firstVC.setTabBarImage(imageName: "book", title: "All petitions")
-        secondVC.setTabBarImage(imageName: "bookmark", title: "Saved petitions")
+        allPetitionsVC.setTabBarImage(imageName: "book", title: "All petitions")
+        popularPetitionsVC.setTabBarImage(imageName: "bookmark", title: "Popular petitions")
         
-        let firstNC = UINavigationController(rootViewController: firstVC)
-        let secondNC = UINavigationController(rootViewController: secondVC)
+        let allPetitionsNC = UINavigationController(rootViewController: allPetitionsVC)
+        let popularPetitionsNC = UINavigationController(rootViewController: popularPetitionsVC)
         
-        viewControllers = [firstNC, secondNC]
+        viewControllers = [allPetitionsNC, popularPetitionsNC]
     }
 
 
