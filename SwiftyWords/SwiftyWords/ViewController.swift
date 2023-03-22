@@ -28,6 +28,7 @@ class ViewController: UIViewController {
         }
     }
     var level = 1
+    var itemsMatched = 0
     
 
     override func viewDidLoad() {
@@ -91,6 +92,10 @@ class ViewController: UIViewController {
                 
                 let frame = CGRect(x: column * width, y: row * height, width: width, height: height)
                 letterButton.frame = frame
+                
+                letterButton.layer.borderWidth = 2
+                letterButton.layer.borderColor = UIColor.lightGray.cgColor
+                letterButton.layer.cornerRadius = 30
                 
                 buttonsView.addSubview(letterButton)
                 letterButtons.append(letterButton)
@@ -207,7 +212,12 @@ extension ViewController {
         for btn in letterButtons {
             btn.isHidden = false
         }
-        
+    }
+    
+    private func showAlert(title: String, message: String, handler: ((_ action: UIAlertAction) -> ())?) {
+        let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default, handler: handler))
+        present(ac, animated: true)
     }
 }
 
@@ -223,12 +233,14 @@ extension ViewController {
             currentAnswer.text = ""
             activatedButtons.removeAll()
             score += 1
+            itemsMatched += 1
             
-            if score % 7 == 0 {
-                let ac = UIAlertController(title: "Well done!", message: "Are you ready for the next level?", preferredStyle: .alert)
-                ac.addAction(UIAlertAction(title: "Let's go!", style: .default, handler: levelUp))
-                present(ac, animated: true)
+            if itemsMatched % 7 == 0 {
+                showAlert(title: "Well done!", message: "Are you ready for the next level?", handler: levelUp)
             }
+        } else {
+            score -= 1
+            showAlert(title: "Incorrect!", message: "Unfortunately it's a wrong answer", handler: nil)
         }
     }
     
