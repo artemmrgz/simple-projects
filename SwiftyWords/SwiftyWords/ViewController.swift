@@ -22,7 +22,11 @@ class ViewController: UIViewController {
     var activatedButtons = [UIButton]()
     var solutions = [String]()
     
-    var score = 0
+    var score = 0 {
+        didSet {
+            scoreLabel.text = "Score \(score)"
+        }
+    }
     var level = 1
     
 
@@ -164,9 +168,8 @@ extension ViewController {
                 lines.shuffle()
 
                 for (index, line) in lines.enumerated() {
-                    guard line != "" else { continue }
                     
-                    var parts = line.components(separatedBy: ": ")
+                    let parts = line.components(separatedBy: ": ")
                     
                     let answer = parts[0]
                     let clue = parts[1]
@@ -179,7 +182,6 @@ extension ViewController {
                     let bits = answer.components(separatedBy: "|")
                     letterBits += bits
                 }
-                
             }
         }
         
@@ -194,19 +196,56 @@ extension ViewController {
             }
         }
     }
+    
+    private func levelUp(action: UIAlertAction) {
+        level += 1
+        
+        solutions.removeAll(keepingCapacity: true)
+        
+        loadLevel()
+        
+        for btn in letterButtons {
+            btn.isHidden = false
+        }
+        
+    }
 }
 
 // MARK: Actions
 extension ViewController {
     @objc func submitTapped(_ sender: UIButton) {
+        guard let answer = currentAnswer.text else { return }
         
+        if let index = solutions.firstIndex(of: answer) {
+            var splitAnswers = answersLabel.text?.components(separatedBy: "\n")
+            splitAnswers?[index] = answer
+            answersLabel.text = splitAnswers?.joined(separator: "\n")
+            currentAnswer.text = ""
+            activatedButtons.removeAll()
+            score += 1
+            
+            if score % 7 == 0 {
+                let ac = UIAlertController(title: "Well done!", message: "Are you ready for the next level?", preferredStyle: .alert)
+                ac.addAction(UIAlertAction(title: "Let's go!", style: .default, handler: levelUp))
+                present(ac, animated: true)
+            }
+        }
     }
     
     @objc func clearTapped(_ sender: UIButton) {
+        currentAnswer.text = ""
         
+        for button in activatedButtons {
+            button.isHidden = false
+        }
+        activatedButtons.removeAll()
     }
     
     @objc func letterTapped(_ sender: UIButton) {
+        guard let buttonTitle = sender.titleLabel?.text else { return }
         
+        currentAnswer.text = currentAnswer.text?.appending(buttonTitle)
+        activatedButtons.append(sender)
+        sender.isHidden = true
     }
 }
