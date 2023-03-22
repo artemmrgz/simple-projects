@@ -19,6 +19,12 @@ class ViewController: UIViewController {
     let buttonsView = UIView()
     var letterButtons = [UIButton]()
     
+    var activatedButtons = [UIButton]()
+    var solutions = [String]()
+    
+    var score = 0
+    var level = 1
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +32,7 @@ class ViewController: UIViewController {
         view.backgroundColor = .systemBackground
         setup()
         layout()
+        loadLevel()
     }
     
     private func setup() {
@@ -58,10 +65,12 @@ class ViewController: UIViewController {
         submit = UIButton(type: .system)
         submit.translatesAutoresizingMaskIntoConstraints = false
         submit.setTitle("SUBMIT", for: .normal)
+        submit.addTarget(self, action: #selector(submitTapped), for: .touchUpInside)
         
         clear = UIButton(type: .system)
         clear.translatesAutoresizingMaskIntoConstraints = false
         clear.setTitle("CLEAR", for: .normal)
+        clear.addTarget(self, action: #selector(clearTapped), for: .touchUpInside)
         
         buttonsView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -74,6 +83,7 @@ class ViewController: UIViewController {
                 letterButton.titleLabel?.font = UIFont.systemFont(ofSize: 44)
                 
                 letterButton.setTitle("WWW", for: .normal)
+                letterButton.addTarget(self, action: #selector(letterTapped), for: .touchUpInside)
                 
                 let frame = CGRect(x: column * width, y: row * height, width: width, height: height)
                 letterButton.frame = frame
@@ -82,10 +92,6 @@ class ViewController: UIViewController {
                 letterButtons.append(letterButton)
             }
         }
-        
-        
-        
-        
     }
 
     private func layout() {
@@ -144,7 +150,63 @@ class ViewController: UIViewController {
             buttonsView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -20)
         ])
     }
-
-
 }
 
+extension ViewController {
+    private func loadLevel() {
+        var clueString = ""
+        var solutionsString = ""
+        var letterBits = [String]()
+        
+        if let levelFileURL = Bundle.main.url(forResource: "level\(level)", withExtension: "txt") {
+            if let levelContent = try? String(contentsOf: levelFileURL) {
+                var lines = levelContent.components(separatedBy: "\n")
+                lines.shuffle()
+
+                for (index, line) in lines.enumerated() {
+                    guard line != "" else { continue }
+                    
+                    var parts = line.components(separatedBy: ": ")
+                    
+                    let answer = parts[0]
+                    let clue = parts[1]
+                    
+                    clueString += "\(index + 1). \(clue)\n"
+                    let solutionWord = answer.replacingOccurrences(of: "|", with: "")
+                    solutionsString += "\(solutionWord.count) letters\n"
+                    solutions.append(solutionWord)
+                    
+                    let bits = answer.components(separatedBy: "|")
+                    letterBits += bits
+                }
+                
+            }
+        }
+        
+        cluesLabel.text = clueString.trimmingCharacters(in: .whitespacesAndNewlines)
+        answersLabel.text = solutionsString.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        letterButtons.shuffle()
+        
+        if letterButtons.count == letterBits.count {
+            for i in 0..<letterButtons.count {
+                letterButtons[i].setTitle(letterBits[i], for: .normal)
+            }
+        }
+    }
+}
+
+// MARK: Actions
+extension ViewController {
+    @objc func submitTapped(_ sender: UIButton) {
+        
+    }
+    
+    @objc func clearTapped(_ sender: UIButton) {
+        
+    }
+    
+    @objc func letterTapped(_ sender: UIButton) {
+        
+    }
+}
