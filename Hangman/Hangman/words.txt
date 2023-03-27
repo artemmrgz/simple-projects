@@ -1,0 +1,10 @@
+banana
+apple
+car
+skyscraper
+book
+chair
+jacket
+flower
+water
+money
