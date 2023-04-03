@@ -19,10 +19,10 @@ class ViewController: UIViewController {
     var buttons = [UIButton]()
     var score = 0
     var correctAnswer: Int?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setup()
         play()
     }
@@ -69,14 +69,20 @@ extension ViewController {
     
     private func play(action: UIAlertAction! = nil) {
         countries.shuffle()
+        stackView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
         
         for (idx, btn) in buttons.enumerated() {
+            btn.transform = .identity
             let image = UIImage(named: countries[idx])
             btn.setImage(image, for: .normal)
         }
-
+        
         correctAnswer = Int.random(in: 0...2)
         countryLabel.text = countries[correctAnswer!]
+        
+        UIView.animate(withDuration: 1, delay: 0) {
+            self.stackView.transform = CGAffineTransform(scaleX: 1, y: 1)
+        }
     }
     
     private func generateNumbers(_ amount: Int, in total: Int) -> [Int] {
@@ -95,6 +101,10 @@ extension ViewController {
 extension ViewController {
     @objc func buttonTapped(_ sender: UIButton) {
         var title: String
+        
+        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5) {
+            sender.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        }
         
         if sender.tag == correctAnswer {
             score += 1
